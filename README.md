@@ -1,4 +1,4 @@
 nodeinaction
 ============
 
-code as i follow along Node.js in Action 
+snippets and exercises as read throught Node.js in Action
