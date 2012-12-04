@@ -1,0 +1,9 @@
+{
+	"name": "SimpleChat",
+	"version": "0.0.1",
+	"description": "simple chat app in node from chapters 2 in Node.js in Action",
+	"dependencies": {
+		"socket.io": "~0.9.6",
+		"mime": "~1.2.7"
+	}
+}
