@@ -1,8 +1,8 @@
 var http = require('http')
-, fs = require('fs')
-, path = require('path')
-, mime = require('mime')
-, cache = {};
+, fs      = require('fs')
+, path    = require('path')
+, mime    = require('mime')
+, cache   = {};
 
 function send404(response){
   response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -10,25 +10,25 @@ function send404(response){
   response.end();
 }
 
-function sendFile(response, filepath, fileContents){
+function sendFile(response, filePath, fileContents){
   response.writeHead(200, {
-	  "content-type": mime.lookup(path.basename(fileContents))
+	  "content-type": mime.lookup(path.basename(filePath))
   });
   response.end(fileContents);
 }
 
-function serveStatic(response, cache, abspath){
-  if(cache[abspath]){
-    sendFile(response,abspath,cache[abspath]);
+function serveStatic(response, cache, absPath){
+  if(cache[absPath]){
+    sendFile(response,absPath,cache[absPath]);
   } else {
-    fs.exists(abspath,function(exists){
+    fs.exists(absPath,function(exists){
       if(exists){
-        fs.readFile(abspath, function(err,data){
+        fs.readFile(absPath, function(err,data){
           if(err){
             send404(response);
           } else {
-            cache[abspath] = data;
-            sendFile(response,abspath,data);
+            cache[absPath] = data;
+            sendFile(response,absPath,data);
           }
         });
       } else {
@@ -46,11 +46,15 @@ var server = http.createServer(function(request, response){
     filePath = 'public' + request.url;
   }
 
-  var abspath = './' + filePath;
-  serveStatic(response,cache,abspath);
+  var absPath = './' + filePath;
+  serveStatic(response,cache,absPath);
 });
 
 
 server.listen(3000, function(){
   console.log("Server listening on port 3000.");
 });
+
+var chatServer = require('./lib/chat_server');
+chatServer.listen(server);
+
