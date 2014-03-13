@@ -47,6 +47,7 @@ function parseRSSFeed (rss) {
   console.log(item.link);
 }
 
+// Serial Array to control flow of task execution
 var tasks = [
   checkForRSSFile,
   readRSSFile,
