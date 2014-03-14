@@ -12,18 +12,18 @@ flow.series([
 		flow.parallel([
 			function (callback) {
 				console.log('Downloading Node v0.4.6...');
-				downloadNodeVersion('0.4.6', './', callback);
+				downloadNodeVersion('0.4.6', '/tmp', callback);
 			},
 			function (callback) {
 				console.log('Downloading Node v0.4.7...');
-				downloadNodeVersion('0.4.7', './', callback);
+				downloadNodeVersion('0.4.7', '/tmp', callback);
 			}
 		], callback);
 	},
 	function (callback) {
 		console.log('Creating archive of downloaded files....');
 		exec(
-			'tar cvf node_distros.tar ./0.4.6.tgz ./0.4.7.tgz',
+			'tar cvf node_distros.tar /tmp/0.4.6.tgz /tmp/0.4.7.tgz',
 			function (error, stdout, stderr) {
 				console.log('all done');
 				callback();
