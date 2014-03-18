@@ -7,7 +7,11 @@ function show(res) {
 					+ '<h1>Todo List</h1>'
 					+ '<ul>'
 					+ items.map(function(item) {
-							return '<li>' + item + '</li>'
+							var html = '<li>' + item + '</li>';
+              html += '<form method="DELETE" action="/">';
+              html += '<input type="hidden" name="item" value="' + item + '" />';
+              html += '<input type="submit" value="remove" /></form>';
+              return html;
 						}).join('')
 					+ '</ul>'
 					+ '<form method="post" action="/">'
@@ -17,6 +21,7 @@ function show(res) {
 	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Content-Length', Buffer.byteLength(html));
 	res.end(html);
+  remove(null,res);
 }
 
 function notFound(res) {
@@ -44,6 +49,8 @@ function add(req, res) {
 }
 
 function remove(req, res) {
+  console.log(items);
+  /*
 	var path = url.parse(req.url).pathname;
 	var index = parseInt(path.slice(1), 10);
   if(isNaN(index)) {
@@ -55,10 +62,12 @@ function remove(req, res) {
   } else {
     items.splice(index,1);
     res.end('OK\n');
-	}
+  }
+  */
 }
 
 var server = http.createServer(function(req, res) {
+  console.log(req.method + ' -- ' + req.url);
 	if('/' == req.url) {
 		switch (req.method) {
 			case 'GET':
@@ -68,7 +77,7 @@ var server = http.createServer(function(req, res) {
 				add(req, res);
 				break;
 			case 'DELETE':
-				del(req,res);
+				remove(req,res);
 				break;
 			default:
 				badRequest(res);
