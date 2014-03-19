@@ -49,6 +49,7 @@ function add(req, res) {
 }
 
 function remove(req, res) {
+	//TODO Completed code for DELETE 
   console.log(items);
   /*
 	var path = url.parse(req.url).pathname;
