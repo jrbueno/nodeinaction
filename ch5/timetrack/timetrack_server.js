@@ -4,8 +4,8 @@ var mysql = require('mysql');
 
 var db = mysql.createConnection({
   host: '127.0.0.1',
-  user: 'myuser',
-  password: 'mypassword',
+  user: 'root',
+  password: 'passwordhere',
   database: 'timetrack'
 });
 
@@ -27,10 +27,10 @@ var server = http.createServer(function(req, res) {
     case 'GET':
       switch(req.url) {
         case '/':
-          work.show(db,req,res);
+          work.show(db,res);
           break;
         case '/archived':
-          work.showArchived(db, req, res);
+          work.showArchived(db, res);
           break;
       }
       break;
