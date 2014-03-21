@@ -95,7 +95,7 @@ exports.workHitlistHtml = function(rows) {
     html += '<td>' + rows[i].hours + '</td>';
     html += '<td>' + rows[i].description + '</td>';
     if(!rows[i].archived) {
-      html += '<td>' + exports.workArchivedForm(rows[i].id) + '</td>';
+      html += '<td>' + exports.workArchiveForm(rows[i].id) + '</td>';
     }
     html += '<td>' + exports.workDeleteForm(rows[i].id) + '</td>';
     html += '</tr>';
@@ -105,7 +105,7 @@ exports.workHitlistHtml = function(rows) {
 };
 
 exports.workFormHtml = function() {
-  var html = '<form metho="POST" action="/">' +
+  var html = '<form method="POST" action="/">' +
     '<p>Date (YYYY-MM-DD):<br /><input name="date" type="text"></p>' +
     '<p>Hours Worked:<br /><input name="hours" type="text"></p>' +
     '<p>Description:<br />' +
