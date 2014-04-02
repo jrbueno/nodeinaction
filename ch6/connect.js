@@ -45,9 +45,19 @@ function admin(req, res, next) {
   }
 }
 
-app.use(logger);
-app.use('/admin', restrict);
-app.use('/admin', admin);
-app.use(hello);
+//configurable component -- using closures.
+function setup(options) {
+  //
+  return function(req,res, next){
+    console.log(options.some)
+    next();
+  }
+}
+
+//app.use(logger);
+//app.use('/admin', restrict);
+//app.use('/admin', admin);
+//app.use(hello);
+app.use(setup({some: 'options'}));
 
 app.listen(3000);
