@@ -1,5 +1,6 @@
 var connect = require('connect');
 var app = connect();
+var setup = require('./logger');
 
 function logger(req, res, next)
 {
@@ -46,6 +47,7 @@ function admin(req, res, next) {
 }
 
 //configurable component -- using closures.
+/*
 function setup(options) {
   //
   return function(req,res, next){
@@ -53,11 +55,11 @@ function setup(options) {
     next();
   }
 }
-
+*/
 //app.use(logger);
 //app.use('/admin', restrict);
 //app.use('/admin', admin);
 //app.use(hello);
-app.use(setup({some: 'options'}));
+app.use(setup(':url :method'));
 
 app.listen(3000);
