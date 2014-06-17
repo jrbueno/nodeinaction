@@ -1,16 +1,12 @@
-var connect = require('connect');
+var connect = require('connect'),
+  session = require('express-session'),
+  RedisStore = require('connect-redis')(session);
 
 var app = connect();
 
-var hour = 3600000;
-var sessionOpts = {
-  key: 'myapp_sid',
-  cookie: { maxAge: hour * 24} 
-};
-
 app.use(connect.favicon());
 app.use(connect.cookieParser('keyboard cat'));
-app.use(connect.session(sessionOpts));
+app.use(connect.session({ store: new RedisStore({ prefix: 'sid'})}));
 app.use(function(req, res, next){
   var sess = req.session;
   if(sess.views) {
@@ -21,8 +17,8 @@ app.use(function(req, res, next){
     res.write('<p>path: ' + sess.cookie.path + '</p>');
     res.write('<p>domain: ' + sess.cookie.domain + '</p>');
     res.write('<p>secure: ' + sess.cookie.secure + '</p>');
-    res.end();
     sess.views++;
+    res.end();
   } else {
     sess.views = 1;
     res.end('Welcome to the session demo. Refresh!');
