@@ -4,6 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -14,17 +15,23 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+// Photos Local Path
+app.set('photos', __dirname + '/public/pics');
 
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(multer());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// need to understand .use vs .get for routing!
 // app.use('/', routes);
-app.use('/', photos.list);
-app.use('/users', users);
+app.get('/', photos.list);
+//app.use('/users', users);
+app.get('/upload', photos.form);
+app.post('/upload', photos.submit(app.get('photos')));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,8 +63,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-// Photos Local Path
-app.set('photos', './pics');
 
 module.exports = app;
