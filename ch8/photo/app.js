@@ -23,7 +23,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(multer());
+app.use(multer({ dest: app.get('photos') }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // need to understand .use vs .get for routing!
