@@ -19,6 +19,7 @@ exports.form = function (req, res) {
 };
 
 exports.submit = function (req, res, next) {
+  console.log(req.body);
   var data = req.body.entry;
   var entry = new Entry({
     "username": res.locals.user.name,
@@ -27,6 +28,11 @@ exports.submit = function (req, res, next) {
   });
   entry.save(function(err) {
     if (err) return next(err);
-    res.redirect('/');
+    //NON API calls -- better way to accomplish this?
+    if(req.remoteUser) {
+      res.json({ message: 'Entry Added.'});
+    } else {
+      res.redirect('/');
+    }
   });
 };

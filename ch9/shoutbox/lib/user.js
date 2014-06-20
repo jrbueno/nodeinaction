@@ -80,6 +80,13 @@ User.authenticate = function(name, pass, fn) {
   });
 };
 
+User.prototype.toJSON = function () {
+  return {
+    id: this.id,
+    name: this.name
+  };
+};
+
 ////Generate Test Data
 // for(var i = 1; i < 10; i++) {
 //   var jose = new User({
