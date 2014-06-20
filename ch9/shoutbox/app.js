@@ -9,8 +9,10 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
 var login = require('./routes/login');
+var entries = require('./routes/entries');
 var messages = require('./lib/messages');
 var user = require('./lib/middleware/user');
+var validate = require('./lib/middleware/validate');
 
 var app = express();
 
@@ -30,8 +32,14 @@ app.use(user);
 app.use(messages);
 
 //Routes
-app.get('/', routes);
-app.get('/users', users);
+app.get('/', entries.list);
+app.get('/post', entries.form);
+app.post('/post', 
+  validate.required('entry[title]'),
+  validate.lengthAbove('entry[title]', 4),
+  entries.submit
+);
+//app.get('/users', users);
 app.get('/register', register.form);
 app.post('/register', register.submit);
 app.get('/login', login.form);
