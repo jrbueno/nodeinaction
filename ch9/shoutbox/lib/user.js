@@ -62,7 +62,7 @@ User.getId = function(name, fn) {
 };
 
 User.get = function(id, fn) {
-  db.hgetall('user:' + id, function(err, fn) {
+  db.hgetall('user:' + id, function(err, user) {
     if(err) return fn(err);
     fn(null, new User(user));
   });
