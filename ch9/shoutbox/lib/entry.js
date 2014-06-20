@@ -35,3 +35,16 @@ Entry.getRange = function (from, to, fn) {
 Entry.count = function (fn) {
   db.llen('entries', fn);
 };
+
+// //Generate test Data
+// for (var i = 0; i < 10; i++) {
+//   var entry = new Entry({
+//     "username": 'jose',
+//     "title": 'title' + i,
+//     "body": 'my body is ' + i
+//   });
+//   entry.save(function(err) {
+//     if (err) return next(err);
+//     console.log('yeeah');
+//   });
+// }

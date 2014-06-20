@@ -34,7 +34,6 @@ app.use(user);
 app.use(messages);
 
 //Routes
-app.get('/', page(Entry.count, 5), entries.list);
 app.get('/post', entries.form);
 app.post('/post',
   validate.required('entry[title]'),
@@ -47,6 +46,7 @@ app.post('/register', register.submit);
 app.get('/login', login.form);
 app.post('/login', login.submit);
 app.get('/logout', login.logout);
+app.get('/:page?', page(Entry.count, 5), entries.list);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

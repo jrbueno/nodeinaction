@@ -79,3 +79,15 @@ User.authenticate = function(name, pass, fn) {
     });
   });
 };
+
+////Generate Test Data
+// for(var i = 1; i < 10; i++) {
+//   var jose = new User({
+//     name: 'Jose Bueno - ' + i,
+//     pass: 'I\'m batman'
+//   });
+//   jose.save(function (err) {
+//     if (err) throw err;
+//     console.log('created user[%d]: %s', jose.id,jose.name);
+//   });
+// }
