@@ -11,8 +11,10 @@ var register = require('./routes/register');
 var login = require('./routes/login');
 var entries = require('./routes/entries');
 var messages = require('./lib/messages');
+var Entry = require('./lib/entry');
 var user = require('./lib/middleware/user');
 var validate = require('./lib/middleware/validate');
+var page = require('./lib/middleware/page');
 
 var app = express();
 
@@ -32,9 +34,9 @@ app.use(user);
 app.use(messages);
 
 //Routes
-app.get('/', entries.list);
+app.get('/', page(Entry.count, 5), entries.list);
 app.get('/post', entries.form);
-app.post('/post', 
+app.post('/post',
   validate.required('entry[title]'),
   validate.lengthAbove('entry[title]', 4),
   entries.submit
