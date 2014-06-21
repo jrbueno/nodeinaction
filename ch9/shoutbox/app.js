@@ -52,54 +52,57 @@ app.get('/:page?', page(Entry.count, 5), entries.list);
 
 //API Routes
 app.get('/api/user/:id', api.user);
-// app.get('/api/entries/:page?', api.entries);
+app.get('/api/entries/:page?', page(Entry.count), api.entries);
 app.post('/api/entry', entries.submit);
 
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
+if (process.env.ERROR_ROUTE) {
+  app.get('/dev/error', function (req, res, next) {
+    var err = new Error('database connection failed');
+    err.type = 'database';
     next(err);
-});
+  });
+}
 
+app.use(routes.notFound);
+app.use(routes.error);
 /// error handlers
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-      if(req.remoteUser){
-        res.status(err.status || 500);
-        res.json({
-          message: err.message,
-          stacktrace: err.stack
-        });
-      } else {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-      }
-    });
-}
+// if (app.get('env') === 'development') {
+//   app.use(function(err, req, res, next) {
+//     if(req.remoteUser){
+//       res.status(err.status || 500);
+//       res.json({
+//         message: err.message,
+//         stacktrace: err.stack
+//       });
+//     } else {
+//       res.status(err.status || 500);
+//       res.render('error', {
+//           message: err.message,
+//           error: err
+//       });
+//     }
+//   });
+// }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  if(req.remoteUser){
-    res.status(err.status || 500);
-    res.json({
-      message: err.message
-    });
-  } else {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-  }
-});
+// app.use(function(err, req, res, next) {
+//   if(req.remoteUser){
+//     res.status(err.status || 500);
+//     res.json({
+//       message: err.message
+//     });
+//   } else {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//         message: err.message,
+//         error: {}
+//     });
+//   }
+// });
 
 
 module.exports = app;
